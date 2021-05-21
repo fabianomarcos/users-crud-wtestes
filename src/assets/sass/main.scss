@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap");
+
+body {
+	background: var(--color-background) !important;
+	font-family: "Mulish", sans-serif !important;
+	color: var(--color-grey-800) !important;
+    height: auto !important;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+*:focus {
+	outline: none;
+}

@@ -1,0 +1,66 @@
+:root {
+	// --------- COLORS ---------
+	--color-background: #f3f3f3;
+    --color-footer: #292d3e;
+	// primary blue
+	--color-primary-200: #8db6f4;
+	--color-primary-300: #3983fb;
+	--color-primary-400: #0061ff; // main color
+	--color-primary-500: #2353aa;
+	--color-primary-600: #354c80;
+
+	// secondary yellow
+	--color-secondary-200: #FCD181;
+	--color-secondary-300: #ffc353;
+	--color-secondary-400: #ffb833; // main color
+	--color-secondary-500: #f59f00;
+
+	// greyscale
+	--color-white: #fff;
+	--color-grey-050: #f5f8fa; // focus color
+	--color-grey-100: #e1e8ed;
+	--color-grey-200: #ced4da;
+	--color-grey-300: #bbc0c7; // focus color
+	--color-grey-400: #a8acb4;
+	--color-grey-500: #9497a1; // focus color
+	--color-grey-600: #6d6e7b;
+	--color-grey-700: #5a5a68;
+	--color-grey-800: #464555; // focus color
+	--color-grey-900: #34343c; // focus color
+	--color-black: #272729;
+
+	// green
+	--color-green-600: #3e6b56;
+
+	// warnings
+	--color-error: #dd2229;
+	--color-error-dark: #c21e24;
+	--color-attention: #f58317;
+	--color-attention-dark: #eb770a;
+	--color-success: #3f9d50;
+	--color-success-dark: #348343;
+
+	// themes
+	--color-theme-retail: #FB7F39;
+	--color-theme-tax: #499b8c;
+	--color-theme-partners-portal: #ffc353;
+	--color-theme-dfe: var(--color-primary-300);
+	--color-theme-home: var(--color-grey-800);
+
+	// --------- SPACING ---------
+
+	--spacing-padding-300: 0.5rem;
+	--spacing-padding-400: 1rem;
+	--spacing-padding-500: 2rem;
+
+	// --------- BORDER ---------
+
+	--border-200: 0.25rem;
+	--border-300: 0.5rem;
+	--border-400: 1rem;
+	--border-500: 2rem;
+
+	// --------- FONT ---------
+
+	--font-family: "Mulish", sans-serif;
+}
