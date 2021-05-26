@@ -1,13 +1,29 @@
 
 // packages
-import React from 'react';
-import { useTable } from 'react-table';
+import { useCallback, useState, useMemo } from 'react';
 
-// visuals
 
+// parts
+import HeaderControlls from "../../components/headerControlls"
+import Modal from "../../components/Modal";
+import UsersCrudForm from "./items/usersCrudForm";
+import Table from "../../components/table";
 
 const Users = () => {
-    const data = React.useMemo(
+    // states
+    const [open, setOpen] = useState(false);
+
+
+    // effects 
+    const handleClose = useCallback(() => {
+        setOpen(false);
+    }, [])
+
+    const openModal = useCallback(() => {
+        setOpen(true);
+    }, [])
+
+    const data = useMemo(
         () => [
             {
                 col1: 'Igor Lúcio',
@@ -25,7 +41,7 @@ const Users = () => {
         []
     )
 
-    const columns = React.useMemo(
+    const columns = useMemo(
         () => [
             {
                 Header: 'Nome',
@@ -39,62 +55,19 @@ const Users = () => {
         []
     )
 
-    const tableInstance = useTable({ columns, data } as any);
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = tableInstance
 
     return (
         <div>
-            <div>
-                <h1 className="pageTitle">Usuários</h1>
-            </div>
             <div className="container">
-                <table {...getTableProps()}>
-                    <thead>
-                        {
-                            headerGroups.map(headerGroup => (
-                                <tr {...headerGroup.getHeaderGroupProps()}>
-                                    {
-                                        headerGroup.headers.map(column => (
-                                            // Apply the header cell props
-                                            <th {...column.getHeaderProps()}>
-                                                {// Render the header
-                                                    column.render('Header')}
-                                            </th>
-                                        ))}
-                                </tr>
-                            ))
-                        }
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {// Loop over the table rows
-                            rows.map(row => {
-                                // Prepare the row for display
-                                prepareRow(row)
-                                return (
-                                    // Apply the row props
-                                    <tr {...row.getRowProps()}>
-                                        {// Loop over the rows cells
-                                            row.cells.map(cell => {
-                                                // Apply the cell props
-                                                return (
-                                                    <td {...cell.getCellProps()}>
-                                                        {// Render the cell contents
-                                                            cell.render('Cell')}
-                                                    </td>
-                                                )
-                                            })}
-                                    </tr>
-                                )
-                            })}
-                    </tbody>
-                </table>
+                <div className="pageHeader">
+                    <h1 className="pageTitle">Usuários</h1>
+                    <HeaderControlls onCreate={openModal} />
+                </div>
+                <Table data={data} columns={columns} />
+
+                <Modal show={open} handleClose={handleClose}>
+                    <UsersCrudForm />
+                </Modal>
             </div>
         </div>
     )

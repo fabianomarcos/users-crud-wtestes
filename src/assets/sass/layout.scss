@@ -1,8 +1,10 @@
 .container{
     margin-right: auto;
     margin-left: auto;
-  
+    background-color: var(--color-white);
+    padding: 1rem 2rem;
     display: flex;
+    margin-top: 1rem;
     justify-content: space-between;
 
     @media (min-width: 768px) {
@@ -35,4 +37,16 @@
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
+}
+
+.pageHeader{
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 2rem;
+}
+
+.flex{
+    flex-direction: row;
+    display: flex;
+    justify-content: space-around;
 }
