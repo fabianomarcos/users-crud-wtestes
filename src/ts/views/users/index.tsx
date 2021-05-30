@@ -1,4 +1,3 @@
-
 // packages
 import { useCallback, useState, useMemo } from 'react';
 
@@ -9,17 +8,23 @@ import Modal from "../../components/Modal";
 import UsersCrudForm from "./items/usersCrudForm";
 import Table from "../../components/table";
 
+
+const initialState = {
+	name: "",
+	lastName: "",
+	email: ""
+}
+
 const Users = () => {
     // states
     const [open, setOpen] = useState(false);
-
-
-    // effects 
+	const [form, setForm] = useState(initialState);
     const handleClose = useCallback(() => {
         setOpen(false);
     }, [])
 
     const openModal = useCallback(() => {
+		setForm({ name: "", lastName: "", email: "" })
         setOpen(true);
     }, [])
 
@@ -55,6 +60,10 @@ const Users = () => {
         []
     )
 
+	const handleSubmitForm = useCallback((e) => {
+		e.preventDefault()
+		handleClose();
+	}, [handleClose])
 
     return (
         <div>
@@ -66,7 +75,10 @@ const Users = () => {
                 <Table data={data} columns={columns} />
 
                 <Modal show={open} handleClose={handleClose}>
-                    <UsersCrudForm />
+                    <UsersCrudForm
+						handleSubmitForm={handleSubmitForm}
+						setForm={setForm}
+						form={form} />
                 </Modal>
             </div>
         </div>
