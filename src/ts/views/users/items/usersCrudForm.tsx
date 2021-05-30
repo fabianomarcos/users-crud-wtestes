@@ -1,24 +1,63 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
+import Input from 'ts/components/input/input';
+import { FormValidations } from "ts/utils/validation"
 
+import styles from "../../../../style.module.scss";
+import useValidation from 'ts/hooks/useValidation';
 
-const UsersCrudForm = (props: any) => {
-    return (
-        <form action="">
-            <label>
-                Nome:
-                <input></input>
-            </label>
-            <label>
-                Sobrenome:
-                <input></input>
-            </label>
-            <label>
-                E-mail:
-                <input></input>
-            </label>
-            <button>Salvar</button>
-        </form>
-    )
+interface IProps {
+	handleSubmitForm: any;
+	setForm: any;
+	form: any;
+}
+
+const UsersCrudForm = ({ handleSubmitForm, setForm, form }:IProps) => {
+	const { errors, hasErrors } = useValidation(form, FormValidations) as any
+	const setInput = useCallback((newValue: any) =>
+		setForm((value: any) => ({...value, ...newValue})), [setForm]);
+
+	useEffect(() => {
+		setForm({});
+		setInput({ name: "", lastName: "", email: "" })
+	}, [setForm, setInput]);
+
+	return (
+	<>
+		<h3>Cadastro de usuário</h3>
+		<form onSubmit={handleSubmitForm}>
+			<div className="form-group">
+				<Input
+					value={form.name}
+					name="name"
+					onChange={(e: any) => setInput({ name: e.target.value })}
+					label="Nome"
+					error={errors.name}
+				/>
+				<Input
+					value={form.lastName}
+					name="lastName"
+					onChange={(e: any) => setInput({ lastName: e.target.value })}
+					label="Sobrenome"
+					error={errors.lastName}
+				/>
+				<Input
+					value={form.email}
+					name="email"
+					onChange={(e: any) => setInput({ email: e.target.value })}
+					label="E-mail"
+					error={errors.email}
+				/>
+			</div>
+
+			<div className={styles.center}>
+				<button
+					type="submit"
+					className={hasErrors && `${styles.disabled}`}
+					disabled={hasErrors}>Salvar</button>
+			</div>
+		</form>
+	</>
+  )
 }
 
 export default UsersCrudForm;
