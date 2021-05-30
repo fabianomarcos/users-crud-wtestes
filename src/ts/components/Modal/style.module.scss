@@ -1,39 +1,84 @@
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width:100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-  }
+	position: fixed;
+	top: 0;
+	left: 0;
+	width:100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+}
 
-  .modal-header{
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
-  }
-  
-  .modal_main {
-    position:fixed;
-    background: white;
-    width: 80%;
-    height: auto;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-  }
-  
-  .display_block {
-    display: block;
-  }
-  
-  .display_none {
-    display: none;
-  }
+.modal-header{
+	display: flex;
+	justify-content: flex-end;
+	padding: 1rem;
+}
+
+.modal_main {
+	padding: 15px;
+	position:fixed;
+	background: white;
+	width: 25%;
+	height: auto;
+	top:50%;
+	left:50%;
+	transform: translate(-50%,-50%);
+	border-radius: 5px;
+}
+
+.display_block {
+  	display: block;
+}
+
+.display_none {
+  	display: none;
+}
 
 
 
-  .close_button{
-    background: #aaa4a400;
-    border: none;
-  }
+.close_button{
+  background: #aaa4a400;
+  border: none;
+  font-size: 16px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+form {
+	margin-top: 15px;
+	display: grid;
+	gap: 2rem;
+	justify-content: unset;
+	align-items: center;
+
+	input {
+		border: solid 0.5px gray;
+		border-radius: 5px;
+		height: 30px;
+	}
+
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: 5px
+	}
+
+	button {
+		justify-content: flex-end;
+		align-self: flex-end;
+		width: 100px;
+		height: 40px;
+		font-size: 15px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-weight: 500;
+
+		background-color:rgb(46, 46, 165);
+		color: #fff;
+
+		&:hover {
+			background-color:rgb(84, 84, 180);
+			color: #fff;
+		}
+	}
+}
