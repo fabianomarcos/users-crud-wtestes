@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Input from 'ts/components/input/input';
 import { FormValidations } from "ts/utils/validation"
 
-import styles from "src/style.module.scss";
+import styles from "../../../../style.module.scss";
 import useValidation from 'ts/hooks/useValidation';
 
 interface IProps {
@@ -13,12 +13,13 @@ interface IProps {
 
 const UsersCrudForm = ({ handleSubmitForm, setForm, form }:IProps) => {
 	const { errors, hasErrors } = useValidation(form, FormValidations) as any
-	const setInput = (newValue: any) => setForm((value: any) => ({...value, ...newValue}));
+	const setInput = useCallback((newValue: any) =>
+		setForm((value: any) => ({...value, ...newValue})), [setForm]);
 
 	useEffect(() => {
 		setForm({});
 		setInput({ name: "", lastName: "", email: "" })
-	}, []);
+	}, [setForm, setInput]);
 
 	return (
 	<>
