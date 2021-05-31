@@ -30,7 +30,8 @@
 	  "build": "react-scripts build",
 	  "test": "react-scripts test",
 	  "coverage": "react-scripts test --coverage --watchAll false",
-	  "eject": "react-scripts eject"
+	  "eject": "react-scripts eject",
+	  "server": "yarn json-server server.json -p 3333 -w"
 	},
 	"eslintConfig": {
 	  "extends": [
@@ -52,6 +53,7 @@
 	},
 	"devDependencies": {
 	  "@types/react-router-dom": "^5.1.7",
-	  "@types/react-table": "^7.7.1"
+	  "@types/react-table": "^7.7.1",
+	  "json-server": "^0.16.2"
 	}
 }
