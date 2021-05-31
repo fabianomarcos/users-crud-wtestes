@@ -1,5 +1,5 @@
 // packages
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 
 
 // parts
@@ -7,63 +7,52 @@ import HeaderControlls from "../../components/headerControlls"
 import Modal from "../../components/Modal";
 import UsersCrudForm from "./items/usersCrudForm";
 import Table from "../../components/table";
-
-
-const initialState = {
-	name: "",
-	lastName: "",
-	email: ""
-}
+import api from "../../services/api";
 
 const Users = () => {
     // states
     const [open, setOpen] = useState(false);
-	const [form, setForm] = useState(initialState);
+    const [data, setData] = useState([]);
+
     const handleClose = useCallback(() => {
         setOpen(false);
     }, [])
 
     const openModal = useCallback(() => {
-		setForm({ name: "", lastName: "", email: "" })
         setOpen(true);
     }, [])
 
-    const data = useMemo(
-        () => [
-            {
-                col1: 'Igor Lúcio',
-                col2: 'Vieira',
-            },
-            {
-                col1: 'Fabiano',
-                col2: 'Marcos',
-            },
-            {
-                col1: 'Stella',
-                col2: 'Resende',
-            },
-        ],
-        []
-    )
+    useEffect(() => {
+		(async () => {
+			const users = await api.get("/users");
+			setData(users.data)
+			return users.data;
+		})();
+	},[]);
 
     const columns = useMemo(
         () => [
             {
                 Header: 'Nome',
-                accessor: 'col1', // accessor is the "key" in the data
+                accessor: 'name',
             },
             {
                 Header: 'Sobrenome',
-                accessor: 'col2',
+                accessor: 'lastName',
+            },
+            {
+                Header: 'E-mail',
+                accessor: 'email',
             },
         ],
         []
     )
 
-	const handleSubmitForm = useCallback((e) => {
-		e.preventDefault()
+	const handleSubmitForm = useCallback(async (user) => {
 		handleClose();
-	}, [handleClose])
+		await api.post("/users", user);
+		setData([...data, user] as any);
+	}, [data, handleClose]);
 
     return (
         <div>
@@ -75,10 +64,7 @@ const Users = () => {
                 <Table data={data} columns={columns} />
 
                 <Modal show={open} handleClose={handleClose}>
-                    <UsersCrudForm
-						handleSubmitForm={handleSubmitForm}
-						setForm={setForm}
-						form={form} />
+                    <UsersCrudForm handleSubmitForm={handleSubmitForm} />
                 </Modal>
             </div>
         </div>

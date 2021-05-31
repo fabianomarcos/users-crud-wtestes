@@ -15,7 +15,7 @@ const App = () => {
         <div className=" flex">
           <Cards img={StellaPic} title="Stella Resende" description="Ex-docente e desenvolvedora Front-end" action={() => {}}/>
           <Cards img={IgorPic} title="Igor Lúcio" description="Desenvolvedor Front-end" action={() => {}}/>
-          <Cards img={FabianoPic} title="Fabiano Marco" description="Desenvolvedor Front-end" action={() => {}}/>
+          <Cards img={FabianoPic} title="Fabiano Marcos" description="Desenvolvedor Front-end" action={() => {}}/>
         </div>
       </main>
     </div>
