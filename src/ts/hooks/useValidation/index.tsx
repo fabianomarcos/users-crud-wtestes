@@ -27,8 +27,8 @@ const useValidation = (values: any, schema: any) => {
    }, [schema, values])
 
    useEffect(() =>
-   		setHasErrors(!!errors.email || !!errors.lastName || !!errors.lastName),
-   [errors.email, errors.lastName])
+   		setHasErrors(!!errors.email || !!errors.lastName || !!errors.name),
+   [errors])
 
    useEffect(() => { validate() },[validate, values])
 
