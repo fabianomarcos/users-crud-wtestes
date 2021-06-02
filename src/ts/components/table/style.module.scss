@@ -1,13 +1,13 @@
 .table{
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: var(--color-grey-800);
     vertical-align: top;
     border-color: #dee2e6;
     text-align: left    ;
 
     thead{
-        vertical-align: bottom;   
+        vertical-align: bottom;
     }
 
     .table>:not(caption)>*>* {
@@ -22,16 +22,20 @@
     }
 
     th{
+		color: #969cb3;
         border-color: inherit;
         border-style: solid;
         border-width: 0;
         font-size: 20px;
         border-bottom: 0.5px solid #b3b2b9;
         padding: 0.3rem;
+		text-align: center;
     }
 
     td{
         padding: 0.3rem;
+		color: #969cb3;
+		text-align: center;
     }
 
 
