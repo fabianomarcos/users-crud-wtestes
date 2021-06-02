@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import getValidatorErrors from 'ts/utils/getValidationError';
 import { ValidationError } from "yup";
 
 interface Errors {
@@ -8,22 +9,17 @@ interface Errors {
 }
 
 const useValidation = (values: any, schema: any) => {
-   const [errors, setErrors] = useState({} as Errors);
+   const [errors, setErrors] = useState<Errors>({} as Errors);
    const [hasErrors, setHasErrors] = useState(true);
+   let error = {};
 
    const validate =  useCallback(async () => {
-      try {
-         await schema.validate(values, { abortEarly: false })
-         setErrors({} as Errors)
-      } catch (e) {
-         if (e instanceof ValidationError) {
-            const errors = {} as any;
-            e.inner.forEach((key) => {
-               if (key?.path) errors[key.path] = key.message
-            })
-            setErrors(errors)
-         }
-      }
+	   try {
+		   await schema.validate(values, { abortEarly: false })
+		} catch (err) {
+			if (err instanceof ValidationError) error = getValidatorErrors(err);
+     	}
+		 setErrors(error as any)
    }, [schema, values])
 
    useEffect(() =>

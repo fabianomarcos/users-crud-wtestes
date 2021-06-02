@@ -30,7 +30,7 @@ const Users = () => {
 		})();
 	},[]);
 
-    const columns = useMemo(
+	const columns = useMemo(
         () => [
             {
                 Header: 'Nome',

@@ -15,7 +15,7 @@ const initialState = {
 	email: ""
 }
 
-const UsersCrudForm = ({ handleSubmitForm }:IProps) => {
+const UsersCrudForm: React.FC<IProps> = ({ handleSubmitForm }) => {
 	const [form, setForm] = useState(initialState);
 	const { errors, hasErrors } = useValidation(form, FormValidations) as any
 
@@ -61,7 +61,7 @@ const UsersCrudForm = ({ handleSubmitForm }:IProps) => {
 			<div className={styles.center}>
 				<button
 					type="submit"
-					className={hasErrors && `${styles.disabled}`}
+					className={hasErrors ? `${styles.disabled}` : undefined}
 					disabled={hasErrors}>Salvar</button>
 			</div>
 		</form>
