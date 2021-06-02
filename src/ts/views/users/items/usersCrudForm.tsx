@@ -4,6 +4,7 @@ import { FormValidations } from "ts/utils/validation"
 
 import styles from "../../../../style.module.scss";
 import useValidation from 'ts/hooks/useValidation';
+import Button from 'ts/components/button/button';
 
 interface IProps {
 	handleSubmitForm: any;
@@ -59,10 +60,7 @@ const UsersCrudForm: React.FC<IProps> = ({ handleSubmitForm }) => {
 			</div>
 
 			<div className={styles.center}>
-				<button
-					type="submit"
-					className={hasErrors ? `${styles.disabled}` : undefined}
-					disabled={hasErrors}>Salvar</button>
+				<Button hasErrors={hasErrors}>Salvar</Button>
 			</div>
 		</form>
 	</>
