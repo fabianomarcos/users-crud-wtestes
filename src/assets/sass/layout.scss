@@ -12,17 +12,17 @@
 
 
             width: 750px;
-        
+
     }
     @media (min-width: 992px) {
-        
+
             width: 970px;
-        
+
     }
     @media (min-width: 1200px) {
-        
+
             width: 1170px;
-        
+
     }
 }
 .row {
@@ -39,10 +39,16 @@
     flex: 1;
 }
 
-.pageHeader{
+.pageHeader {
+	align-items: center;
+	justify-content: flex-start;
+	gap: 2rem;
     display: flex;
-    align-items: baseline;
     margin-bottom: 2rem;
+
+	button {
+		height: 2rem;
+	}
 }
 
 .flex{
