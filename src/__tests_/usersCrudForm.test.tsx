@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
-import userEvent from "@testing-library/user-event";
 
 // parts
 import Form from "ts/views/users/items/usersCrudForm";
@@ -11,10 +10,7 @@ import { FormValidations } from "ts/utils/validation"
 
 // shared
 import { setValueInInput, getElements } from "./shared/utils";
-import { mockedErrors, inputWithValues, mocks, mockedFunctionTwo, mockedFunctionThree } from "./shared/mocks";
-
-
-const mockedFunction = jest.fn();
+import { mockedErrors, inputWithValues, mocks, mockedFunctionTwo, mockedFunctionThree, mockedFunction } from "./shared/mocks";
 
 afterEach(() => {
 	jest.resetAllMocks();
@@ -39,7 +35,7 @@ describe("Crud form users", () => {
 		expect(screen.getByRole('button', { name: /salvar/i })).toBeTruthy()
 	});
 
-	fit("Should be able render Input with error messages", () => {
+	it("Should be able render Input with error messages", () => {
 		const errors = {
 			name: "Nome obrigatório",
 			lastName: "Sobrenome obrigatório",
@@ -92,7 +88,7 @@ describe("Crud form users", () => {
 		expect(screen.getByText(errors.email)).toBeTruthy()
 	});
 
-	fit("Should be able render Input with error messages improvement", () => {
+	it("Should be able render Input with error messages improvement", () => {
 		const input_name = <Input
 			value="name"
 			placeholder="Nome"
