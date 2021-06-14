@@ -1,4 +1,5 @@
 export const mockedErrors = {email: "E-mail é obrigatório", lastName: "Minimum 8 chars", name: "Nome é obrigatório"}
+export const mockedEmptyErrors = { name: "", email: "", lastName: ""}
 
 export const mockedFunction = jest.fn();
 export const mockedFunctionTwo = jest.fn();
@@ -10,4 +11,5 @@ export const mocks = {
 	mockedFunction,
 	inputWithValues,
 	mockedErrors,
+	mockedEmptyErrors
 }

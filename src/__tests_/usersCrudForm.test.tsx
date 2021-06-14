@@ -178,14 +178,16 @@ describe("Crud form users", () => {
 
 		fireEvent.change(inputEmail, { target: { value: "email@gmail.com"} });
 
+		// const { inputEmail, inputLastName, inputName } = getElements
+		// setValueInInput({inputEmail, inputLastName, inputName})
 		const textInFieldsBeforeSubmit = {
 			name: inputName.value,
 			email: inputEmail.value,
 			lastName: inputLastName.value
 		}
+		expect(textInFieldsBeforeSubmit).toMatchObject(mocks.inputWithValues)
 
 		expect(textInFieldsBeforeSubmit).toMatchObject({ name: "Meu Primeiro Nome", lastName: "Meu Segundo Nome", email: "email@gmail.com"})
-		// expect(textInFieldsBeforeSubmit).toMatchObject(mocks.inputWithValues)
 
 		const saveButton = screen.getByRole('button', { name: /salvar/i });
 
@@ -207,12 +209,12 @@ describe("Crud form users", () => {
 	it("Should be able button disabled", async () => {
 		const promise = Promise.resolve();
 
-		const { result } = renderHook(() => useValidation({
+		const { result } = await renderHook(() => useValidation({
 			name: 'Nome é obrigatório',
 			email: 'E-mail é obrigatório',
 			lastName: 'Minimum 8 chars'
-		}, FormValidations
-		));
+		}, FormValidations));
+
 		result.current.hasErrors = true;
 		result.current.errors = {
 			name: 'Nome é obrigatório',
@@ -225,7 +227,7 @@ describe("Crud form users", () => {
 
 		render(
 			<Input
-				value={"Meu nome"}
+				value="Meu nome"
 				placeholder="Nome"
 				touch={true}
 				name="name"
@@ -239,12 +241,10 @@ describe("Crud form users", () => {
 		expect(screen.getByText(/nome é obrigatório/i)).toBeTruthy()
 		expect(inputName.value).toEqual("Meu nome")
 
-		// act(() => promise);
+		act(() => promise);
 	});
 
 	it("Should be able to disable and enable the button", async () => {
-		const promise = Promise.resolve();
-		// resolver promise
 		const { result } = renderHook(() => useValidation({
 			name: 'Nome é obrigatório',
 			email: 'E-mail é obrigatório',
@@ -265,8 +265,6 @@ describe("Crud form users", () => {
 
 		result.current.hasErrors = false;
 
-		// await act(() => promise);
-
 		render(
 			<Button hasErrors={result.current.hasErrors}>Salvar Habilitado</Button>
 		)
@@ -274,14 +272,9 @@ describe("Crud form users", () => {
 		const saveButtonEnable = screen.getByRole("button", { name: /Salvar Habilitado/i })
 
 		expect(saveButtonEnable).not.toBeDisabled();
-		screen.logTestingPlaygroundURL()
-
-		// await act(() => promise);
 	});
 
-	it("Should be able render Input", async () => {
-		const promise = Promise.resolve();
-
+	fit("Should be able render Input", async () => {
 		const { result } = renderHook(() => useValidation({
 			name: 'Nome é obrigatório',
 			email: 'E-mail é obrigatório',
@@ -296,13 +289,7 @@ describe("Crud form users", () => {
 			lastName: 'Minimum 8 chars',
 		} as any;
 
-		const form = {
-			name: "",
-			email: ""
-		}
-
 		const input = <Input
-			value={form.name}
 			placeholder="Nome"
 			touch={false}
 			name="name"
@@ -312,7 +299,6 @@ describe("Crud form users", () => {
 		/>
 
 		const input_email = <Input
-			value={form.email}
 			placeholder="E-mail"
 			touch={false}
 			name="email"
@@ -322,17 +308,18 @@ describe("Crud form users", () => {
 		/>
 
 		render(input)
-		const inputName = screen.getByPlaceholderText("Nome") as HTMLInputElement
-		expect(inputName).toBeTruthy()
-		fireEvent.input(inputName, { target: { value: "Meu Primeiro Nome" }})
+		const inputNameOne = screen.getByPlaceholderText("Nome") as HTMLInputElement
+		expect(inputNameOne).toBeTruthy()
+		fireEvent.change(inputNameOne, { target: { value: "Meu Primeiro Nome" }})
 
 		render(input_email)
-		const inputEmail = screen.getByPlaceholderText("E-mail") as HTMLInputElement
-		expect(inputEmail).toBeTruthy()
-		fireEvent.change(inputEmail, { target: { value: "MeuEmail@gmail.com" }})
+		const inputEmailOne = screen.getByPlaceholderText("E-mail") as HTMLInputElement
+		expect(inputEmailOne).toBeTruthy()
+		fireEvent.change(inputEmailOne, { target: { value: "MeuEmail@gmail.com" }})
 
-		const name = inputName.value;
-		const email = inputEmail.value;
+		const name = inputNameOne.value;
+		const email = inputEmailOne.value;
+		console.log(name, email);
 		render(
 			<Input
 				value={name}
@@ -346,18 +333,20 @@ describe("Crud form users", () => {
 		)
 		render(
 			<Input
-			value={email}
-			placeholder="E-mail"
-			touch={false}
-			name="email"
-			onChange={mockedFunction}
-			label="Email"
-			error={result.current.errors.email}
-		/>
+				value={email}
+				placeholder="E-mail"
+				touch={false}
+				name="email"
+				onChange={mockedFunction}
+				label="Email"
+				error={result.current.errors.email}
+			/>
 		)
 
 		screen.logTestingPlaygroundURL()
-		expect(await screen.findByText("MeuEmail@gmail.com")).toBeTruthy()
-		expect(await screen.findByText("Meu Primeiro Nome")).toBeTruthy()
+		const newEmail = screen.getByText("MeuEmail@gmail.com") as HTMLInputElement
+		const newName = screen.getByText("Meu Primeiro Nome") as HTMLInputElement
+		expect(newEmail.value).toEqual("MeuEmail@gmail.com")
+		expect(newName.value).toEqual("Meu Primeiro Nome")
 	});
 });
