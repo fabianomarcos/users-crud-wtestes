@@ -3,6 +3,7 @@ import { renderHook } from "@testing-library/react-hooks";
 
 // parts
 import Form from "ts/views/users/items/usersCrudForm";
+import Table from "ts/components/table";
 import Input from "ts/components/input/input";
 import Button from "ts/components/button/button";
 import useValidation from "ts/hooks/useValidation";
@@ -11,6 +12,7 @@ import { FormValidations } from "ts/utils/validation"
 // shared
 import { setValueInInput, getElements } from "./shared/utils";
 import { mockedErrors, inputWithValues, mocks, mockedFunctionTwo, mockedFunctionThree, mockedFunction } from "./shared/mocks";
+import { renderColumns } from "ts/views/users/utils";
 
 afterEach(() => {
 	jest.resetAllMocks();
@@ -185,7 +187,7 @@ describe("Crud form users", () => {
 			email: inputEmail.value,
 			lastName: inputLastName.value
 		}
-		expect(textInFieldsBeforeSubmit).toMatchObject(mocks.inputWithValues)
+		// expect(textInFieldsBeforeSubmit).toMatchObject(mocks.inputWithValues)
 
 		expect(textInFieldsBeforeSubmit).toMatchObject({ name: "Meu Primeiro Nome", lastName: "Meu Segundo Nome", email: "email@gmail.com"})
 
@@ -202,6 +204,38 @@ describe("Crud form users", () => {
 		expect(textInFields).toMatchObject({ name: "", email: "", lastName: ""})
 
 		expect(mockedFunction).toHaveBeenCalledTimes(1);
+
+		await act(() => promise);
+	});
+
+	it("Should be able to fill in the fields and submit the form and render the values on table", async () => {
+		render(<Form handleSubmitForm={mockedFunction} />)
+		const promise = Promise.resolve();
+
+		const inputName = screen.getByPlaceholderText("Nome") as HTMLInputElement;
+		const inputLastName = screen.getByPlaceholderText("Sobrenome") as HTMLInputElement;
+		const inputEmail = screen.getByPlaceholderText("E-mail") as HTMLInputElement;
+
+		fireEvent.change(inputName, { target: { value: "Meu Primeiro Nome" } });
+
+		fireEvent.change(inputLastName, { target: { value: "Meu Segundo Nome"} });
+
+		fireEvent.change(inputEmail, { target: { value: "email@gmail.com"} });
+
+		// const { inputEmail, inputLastName, inputName } = getElements
+		// setValueInInput({inputEmail, inputLastName, inputName})
+		const textInFieldsBeforeSubmit = {
+			name: inputName.value,
+			email: inputEmail.value,
+			lastName: inputLastName.value
+		}
+		// expect(textInFieldsBeforeSubmit).toMatchObject(mocks.inputWithValues)
+
+		const saveButton = screen.getByRole('button', { name: /salvar/i });
+		fireEvent.click(saveButton)
+
+		render(<Table columns={renderColumns} data={[textInFieldsBeforeSubmit]}/>)
+		expect(screen.getByText(/meu primeiro nome/i)).toBeTruthy();
 
 		await act(() => promise);
 	});
@@ -272,6 +306,7 @@ describe("Crud form users", () => {
 		const saveButtonEnable = screen.getByRole("button", { name: /Salvar Habilitado/i })
 
 		expect(saveButtonEnable).not.toBeDisabled();
+		expect(saveButton).toHaveClass("disabled");
 	});
 
 	it("Should be able render Input with values for email and name", async () => {

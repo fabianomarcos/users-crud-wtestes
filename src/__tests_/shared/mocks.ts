@@ -6,10 +6,12 @@ export const mockedFunctionTwo = jest.fn();
 export const mockedFunctionThree = jest.fn();
 
 export const inputWithValues = { name: "Meu Primeiro Nome", lastName: "Meu Segundo Nome", email: "email@gmail.com"}
+export const inputEmpty = { name: "", lastName: "", email: ""}
 
 export const mocks = {
 	mockedFunction,
 	inputWithValues,
+	inputEmpty,
 	mockedErrors,
 	mockedEmptyErrors
 }
