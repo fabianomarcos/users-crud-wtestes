@@ -85,12 +85,10 @@ export function editUserFailed(errors: Error): UsersActionTypes {
 }
 
 export const fetchUsers = (): AppThunk => async (dispatch) => {
-	console.log("data");
 	return client
 		.get(`${url}`)
 		.then((response) => {
-			const data = response.data.Users;
-			console.log("data", data);
+			const data = response.data;
 			dispatch(fetchUsersSuccess(data));
 		})
 		.catch((err) => {

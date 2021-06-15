@@ -13,13 +13,9 @@ import { RetrieveUsers } from "../../hooks/users";
 // utils
 // import { GetUsersColumn } from "./utils";
 
-// types
-import * as types from "../../store/users/types";
-
 const Users = () => {
 	// states
 	const [open, setOpen] = useState(false);
-	const [data, setData] = useState<types.UsersState>();
 
 	const handleClose = useCallback(() => {
 		setOpen(false);
@@ -29,17 +25,13 @@ const Users = () => {
 		setOpen(true);
 	}, []);
 
-	useMemo(() => {
-		const usersList = RetrieveUsers();
-
-		setData(usersList);
-	}, []);
+	const usersList = RetrieveUsers();
 
 	const columns = useMemo(
 		() => [
 			{
 				Header: "Nome",
-				accessor: "name",
+				accessor: "firstName",
 			},
 			{
 				Header: "Sobrenome",
@@ -48,6 +40,10 @@ const Users = () => {
 			{
 				Header: "E-mail",
 				accessor: "email",
+			},
+			{
+				Header: "Ações",
+				accessor: () => {console.log("oi")},
 			},
 		],
 		[]
@@ -60,7 +56,7 @@ const Users = () => {
 					<HeaderControlls onCreate={openModal} />
 				</div>
 				<div>
-					<Table data={data} columns={columns} />
+					<Table data={usersList.users} columns={columns} />
 				</div>
 
 				<Modal show={open} handleClose={handleClose}>
