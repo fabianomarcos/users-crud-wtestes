@@ -319,7 +319,6 @@ describe("Crud form users", () => {
 
 		const name = inputNameOne.value;
 		const email = inputEmailOne.value;
-		console.log(name, email);
 		render(
 			<Input
 				value={name}
@@ -341,9 +340,8 @@ describe("Crud form users", () => {
 				label="Email"
 				error={result.current.errors.email}
 			/>
-		)
+		)// 2,16
 
-		screen.logTestingPlaygroundURL()
 		const newEmail = screen.getByPlaceholderText("E-mail_") as HTMLInputElement
 		const newName = screen.getByPlaceholderText("Nome_") as HTMLInputElement
 		expect(newEmail.value).toEqual("MeuEmail@gmail.com")
