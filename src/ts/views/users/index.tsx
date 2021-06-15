@@ -1,74 +1,74 @@
 // packages
-import { useCallback, useState, useMemo, useEffect } from 'react';
-
+import { useCallback, useMemo, useState } from "react";
 
 // parts
-import HeaderControlls from "../../components/headerControlls"
+import HeaderControlls from "../../components/headerControlls";
 import Modal from "../../components/Modal";
 import UsersCrudForm from "./items/usersCrudForm";
 import Table from "../../components/table";
-import api from "../../services/api";
+
+// hooks
+import { RetrieveUsers } from "../../hooks/users";
+
+// utils
+// import { GetUsersColumn } from "./utils";
+
+// types
+import * as types from "../../store/users/types";
 
 const Users = () => {
-    // states
-    const [open, setOpen] = useState(false);
-    const [data, setData] = useState([]);
+	// states
+	const [open, setOpen] = useState(false);
+	const [data, setData] = useState<types.UsersState>();
 
-    const handleClose = useCallback(() => {
-        setOpen(false);
-    }, [])
+	const handleClose = useCallback(() => {
+		setOpen(false);
+	}, []);
 
-    const openModal = useCallback(() => {
-        setOpen(true);
-    }, [])
+	const openModal = useCallback(() => {
+		setOpen(true);
+	}, []);
 
-    useEffect(() => {
-		(async () => {
-			const users = await api.get("/users");
-			setData(users.data)
-			return users.data;
-		})();
-	},[]);
+	useMemo(() => {
+		const usersList = RetrieveUsers();
 
-    const columns = useMemo(
-        () => [
-            {
-                Header: 'Nome',
-                accessor: 'name',
-            },
-            {
-                Header: 'Sobrenome',
-                accessor: 'lastName',
-            },
-            {
-                Header: 'E-mail',
-                accessor: 'email',
-            },
-        ],
-        []
-    )
+		setData(usersList);
+	}, []);
 
-	const handleSubmitForm = useCallback(async (user) => {
-		handleClose();
-		await api.post("/users", user);
-		setData([...data, user] as any);
-	}, [data, handleClose]);
+	const columns = useMemo(
+		() => [
+			{
+				Header: "Nome",
+				accessor: "name",
+			},
+			{
+				Header: "Sobrenome",
+				accessor: "lastName",
+			},
+			{
+				Header: "E-mail",
+				accessor: "email",
+			},
+		],
+		[]
+	);
+	return (
+		<div className="container">
+			<main>
+				<div className="pageHeader">
+					<h1 className="pageTitle">Usuários</h1>
+					<HeaderControlls onCreate={openModal} />
+				</div>
+				<div>
+					<Table data={data} columns={columns} />
+				</div>
 
-    return (
-        <div>
-            <div className="container">
-                <div className="pageHeader">
-                    <h1 className="pageTitle">Usuários</h1>
-                    <HeaderControlls onCreate={openModal} />
-                </div>
-                <Table data={data} columns={columns} />
-
-                <Modal show={open} handleClose={handleClose}>
-                    <UsersCrudForm handleSubmitForm={handleSubmitForm} />
-                </Modal>
-            </div>
-        </div>
-    )
-}
+				<Modal show={open} handleClose={handleClose}>
+					<UsersCrudForm handleSubmitForm={() => {}} />
+				</Modal>
+			</main>
+		</div>
+	);
+};
 
 export default Users;
