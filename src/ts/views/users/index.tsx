@@ -8,6 +8,7 @@ import Modal from "../../components/Modal";
 import UsersCrudForm from "./items/usersCrudForm";
 import Table from "../../components/table";
 import api from "../../services/api";
+import { renderColumns } from './utils';
 
 const Users = () => {
     // states
@@ -30,23 +31,7 @@ const Users = () => {
 		})();
 	},[]);
 
-	const columns = useMemo(
-        () => [
-            {
-                Header: 'Nome',
-                accessor: 'name',
-            },
-            {
-                Header: 'Sobrenome',
-                accessor: 'lastName',
-            },
-            {
-                Header: 'E-mail',
-                accessor: 'email',
-            },
-        ],
-        []
-    )
+	const columns = useMemo(() => renderColumns, [])
 
 	const handleSubmitForm = useCallback(async (user) => {
 		handleClose();
