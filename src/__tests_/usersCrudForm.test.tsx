@@ -274,7 +274,7 @@ describe("Crud form users", () => {
 		expect(saveButtonEnable).not.toBeDisabled();
 	});
 
-	fit("Should be able render Input", async () => {
+	it("Should be able render Input with values for email and name", async () => {
 		const { result } = renderHook(() => useValidation({
 			name: 'Nome é obrigatório',
 			email: 'E-mail é obrigatório',
@@ -323,7 +323,7 @@ describe("Crud form users", () => {
 		render(
 			<Input
 				value={name}
-				placeholder="Nome"
+				placeholder="Nome_"
 				touch={false}
 				name="name"
 				onChange={mockedFunction}
@@ -334,7 +334,7 @@ describe("Crud form users", () => {
 		render(
 			<Input
 				value={email}
-				placeholder="E-mail"
+				placeholder="E-mail_"
 				touch={false}
 				name="email"
 				onChange={mockedFunction}
@@ -344,8 +344,8 @@ describe("Crud form users", () => {
 		)
 
 		screen.logTestingPlaygroundURL()
-		const newEmail = screen.getByText("MeuEmail@gmail.com") as HTMLInputElement
-		const newName = screen.getByText("Meu Primeiro Nome") as HTMLInputElement
+		const newEmail = screen.getByPlaceholderText("E-mail_") as HTMLInputElement
+		const newName = screen.getByPlaceholderText("Nome_") as HTMLInputElement
 		expect(newEmail.value).toEqual("MeuEmail@gmail.com")
 		expect(newName.value).toEqual("Meu Primeiro Nome")
 	});
