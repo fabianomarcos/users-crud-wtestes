@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-key */
-
 // packages
 import React from 'react';
 import { useTable } from "react-table";

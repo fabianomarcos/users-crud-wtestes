@@ -7,7 +7,7 @@ import * as actions from "../../store/users/actions";
 import * as types from "../../store/users/types";
 import { RootState } from "../../store";
 
-export const RetrieveUsers = () => {
+export const useRetrieveUsers = () => {
 	// -------------------------------------------------
 	// Properties
 	// -------------------------------------------------
@@ -33,8 +33,26 @@ export const RetrieveUsers = () => {
 	return list;
 };
 
-export const AddUser = () => {};
+export const useAddUser = (user: any) => {};
 
-export const RemoveUser = () => {};
+export const useRemoveUser = () => {
+    // -------------------------------------------------
+    // Callbacks
+    // -------------------------------------------------
 
-export const EditUser = () => {};
+    // hooks
+    const dispatch = useDispatch();
+
+
+    const removeUserFunction = React.useCallback((userId: number) => {
+
+      dispatch(actions.deleteUser(userId));
+
+      return true;
+    }, [dispatch]);
+
+
+    return removeUserFunction;
+};
+
+export const EditUser = (user: any) => {};

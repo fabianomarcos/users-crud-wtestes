@@ -6,7 +6,7 @@ import PropsInterface from "./types";
 const HeaderControlls = (props: PropsInterface) => {
 	return (
 		<div>
-			<button type="button" onClick={() => props.onCreate()}>
+			<button type="button" onClick={() => props.onCreate("register")}>
 				Adicionar
 			</button>
 		</div>

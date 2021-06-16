@@ -6,6 +6,8 @@ export const EDIT_USER_FAILED = "EDIT_USER_FAILED";
 export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS";
 export const CREATE_USER_SUCCESS = "CREATE_USER_SUCCESS";
 export const CREATE_USER_FAILED = "CREATE_USER_FAILED";
+export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
+export const DELETE_USER_FAILED = "DELETE_USER_FAILED";
 
 export interface User {
 	firstName: string;
@@ -56,6 +58,13 @@ interface editUserAction {
 }
 interface editUserFailedAction {
 	type: typeof EDIT_USER_FAILED;
+	payload: UsersFetchErrors;
+}
+interface deleteUserAction {
+	type: typeof DELETE_USER_SUCCESS;
+}
+interface deleteUserFailedAction {
+	type: typeof DELETE_USER_FAILED;
 	payload: UsersFetchErrors;
 }
 
@@ -114,4 +123,6 @@ export type UsersActionTypes =
 	| editUserAction
 	| editUserFailedAction
 	| createUserAction
-	| createUserFailedAction;
+	| createUserFailedAction
+	| deleteUserAction
+	| deleteUserFailedAction;

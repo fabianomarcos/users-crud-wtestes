@@ -44,3 +44,12 @@
 	display: flex;
 	justify-content: space-around;
 }
+.btn-group {
+	display: flex;
+    border: 0.3px solid var(--color-grey-100);
+    padding: 0.2rem;
+    align-items: center;
+    justify-content: left;
+    border-radius: 8px;
+    width: fit-content;
+}

@@ -1,3 +1,3 @@
 export default interface PropsInterface {
-	onCreate: () => void;
+	onCreate: (type: string) => void;
 }

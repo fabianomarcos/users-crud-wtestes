@@ -1,22 +1,32 @@
+// packages
 import React, { useCallback, useState } from "react";
+
+// parts
 import Input from "ts/components/input/input";
 import { FormValidations } from "ts/utils/validation";
 
+// styles
 import styles from "../../../../style.module.scss";
+
+// hooks
 import useValidation from "ts/hooks/useValidation";
+import { useAddUser, EditUser } from "../../../hooks/users";
 
-interface IProps {
-	handleSubmitForm: any;
-}
+// types
+import { PropsInterface } from "./types";
 
+// state
 const initialState = {
 	name: "",
 	lastName: "",
 	email: "",
 };
 
-const UsersCrudForm = ({ handleSubmitForm }: IProps) => {
+const UsersCrudForm = (props: PropsInterface) => {
+	// states
 	const [form, setForm] = useState(initialState);
+
+	// effects
 	const { errors, hasErrors } = useValidation(form, FormValidations) as any;
 
 	const setInput = useCallback(
@@ -24,15 +34,17 @@ const UsersCrudForm = ({ handleSubmitForm }: IProps) => {
 		[setForm]
 	);
 
+	const handleSubmit = useCallback((event, type, formValues) => {
+		event.preventDefault();
+		// type === "register" ? useAddUser(formValues) : EditUser(formValues);
+		setForm(initialState);
+	}, [])
+
 	return (
 		<>
 			<h3>Cadastro de usuário</h3>
 			<form
-				onSubmit={(event) => {
-					event.preventDefault();
-					handleSubmitForm(form);
-					setForm(initialState);
-				}}
+				onSubmit={(event) => handleSubmit(event, props.type, form)}
 			>
 				<div className="form-group">
 					<Input

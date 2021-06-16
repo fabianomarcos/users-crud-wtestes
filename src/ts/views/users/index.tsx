@@ -6,26 +6,32 @@ import HeaderControlls from "../../components/headerControlls";
 import Modal from "../../components/Modal";
 import UsersCrudForm from "./items/usersCrudForm";
 import Table from "../../components/table";
-
+import { FiEdit2, FiXSquare } from 'react-icons/fi';
 // hooks
-import { RetrieveUsers } from "../../hooks/users";
+import { useRetrieveUsers, useRemoveUser } from "../../hooks/users";
 
 // utils
 // import { GetUsersColumn } from "./utils";
 
 const Users = () => {
+	// hooks
+	const removeUser = useRemoveUser();
+	const usersList = useRetrieveUsers();
+
 	// states
 	const [open, setOpen] = useState(false);
+	const [modalType, setModalType] = useState<string>("");
 
+	// effects
 	const handleClose = useCallback(() => {
 		setOpen(false);
 	}, []);
 
-	const openModal = useCallback(() => {
+	const openModal = useCallback((type: string) => {
+		setModalType(type);
 		setOpen(true);
 	}, []);
 
-	const usersList = RetrieveUsers();
 
 	const columns = useMemo(
 		() => [
@@ -43,10 +49,19 @@ const Users = () => {
 			},
 			{
 				Header: "Ações",
-				accessor: () => {console.log("oi")},
+				Cell: (cell: any) => (
+					<div className="btn-group">
+						<button className="btn" onClick={() => removeUser(cell.row.original.id)}>
+							<FiXSquare />
+						</button>
+						<button className="btn" onClick={() => openModal("edit")}>
+							<FiEdit2 />
+						</button>
+					</div>
+				)
 			},
 		],
-		[]
+		[openModal]
 	);
 	return (
 		<div className="container">
@@ -60,7 +75,7 @@ const Users = () => {
 				</div>
 
 				<Modal show={open} handleClose={handleClose}>
-					<UsersCrudForm handleSubmitForm={() => {}} />
+					<UsersCrudForm type={modalType}/>
 				</Modal>
 			</main>
 		</div>
