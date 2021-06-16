@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import styles from "./style.module.scss"
+import styles from "./style.module.scss";
+
 
 const Input = ({ error, label, touch = false, ...rest }: any) => {
   const [touched, setTouched] = useState(false);
@@ -14,5 +15,3 @@ const Input = ({ error, label, touch = false, ...rest }: any) => {
 }
 
 export default Input;
-
-

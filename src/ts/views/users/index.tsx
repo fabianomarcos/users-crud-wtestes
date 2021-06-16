@@ -1,74 +1,86 @@
 // packages
-import { useCallback, useState, useMemo, useEffect } from 'react';
-
+import { useCallback, useMemo, useState } from "react";
 
 // parts
-import HeaderControlls from "../../components/headerControlls"
+import HeaderControlls from "../../components/headerControlls";
 import Modal from "../../components/Modal";
 import UsersCrudForm from "./items/usersCrudForm";
 import Table from "../../components/table";
-import api from "../../services/api";
+import { FiEdit2, FiXSquare } from 'react-icons/fi';
+// hooks
+import { useRetrieveUsers, useRemoveUser } from "../../hooks/users";
+
+// utils
+// import { GetUsersColumn } from "./utils";
 
 const Users = () => {
-    // states
-    const [open, setOpen] = useState(false);
-    const [data, setData] = useState([]);
+	// hooks
+	const removeUser = useRemoveUser();
+	const usersList = useRetrieveUsers();
 
-    const handleClose = useCallback(() => {
-        setOpen(false);
-    }, [])
+	// states
+	const [open, setOpen] = useState(false);
+	const [modalType, setModalType] = useState<string>("");
 
-    const openModal = useCallback(() => {
-        setOpen(true);
-    }, [])
+	// effects
+	const handleClose = useCallback(() => {
+		setOpen(false);
+	}, []);
 
-    useEffect(() => {
-		(async () => {
-			const users = await api.get("/users");
-			setData(users.data)
-			return users.data;
-		})();
-	},[]);
+
+	const openModal = useCallback((type: string) => {
+		setModalType(type);
+		setOpen(true);
+	}, []);
+
 
 	const columns = useMemo(
-        () => [
-            {
-                Header: 'Nome',
-                accessor: 'name',
-            },
-            {
-                Header: 'Sobrenome',
-                accessor: 'lastName',
-            },
-            {
-                Header: 'E-mail',
-                accessor: 'email',
-            },
-        ],
-        []
-    )
+		() => [
+			{
+				Header: "Nome",
+				accessor: "firstName",
+			},
+			{
+				Header: "Sobrenome",
+				accessor: "lastName",
+			},
+			{
+				Header: "E-mail",
+				accessor: "email",
+			},
+			{
+				Header: "Ações",
+				Cell: (cell: any) => (
+					<div className="btn-group">
+						<button className="btn" onClick={() => removeUser(cell.row.original.id)}>
+							<FiXSquare />
+						</button>
+						<button className="btn" onClick={() => openModal("edit")}>
+							<FiEdit2 />
+						</button>
+					</div>
+				)
+			},
+		],
+		[openModal]
+	);
+	return (
+		<div className="container">
+			<main>
+				<div className="pageHeader">
+					<h1 className="pageTitle">Usuários</h1>
+					<HeaderControlls onCreate={openModal} />
+				</div>
+				<div>
+					<Table data={usersList.users} columns={columns} />
+				</div>
 
-	const handleSubmitForm = useCallback(async (user) => {
-		handleClose();
-		await api.post("/users", user);
-		setData([...data, user] as any);
-	}, [data, handleClose]);
-
-    return (
-        <div>
-            <div className="container">
-                <div className="pageHeader">
-                    <h1 className="pageTitle">Usuários</h1>
-                    <HeaderControlls onCreate={openModal} />
-                </div>
-                <Table data={data} columns={columns} />
-
-                <Modal show={open} handleClose={handleClose}>
-                    <UsersCrudForm handleSubmitForm={handleSubmitForm} />
-                </Modal>
-            </div>
-        </div>
-    )
-}
+				<Modal show={open} handleClose={handleClose}>
+					<UsersCrudForm type={modalType}/>
+				</Modal>
+			</main>
+		</div>
+	);
+};
 
 export default Users;
